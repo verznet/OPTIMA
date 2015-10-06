@@ -39,6 +39,3 @@ Please cite the following papers:
   ``Index-based map-to-sequence alignment in large eukaryotic genomes."
   In the Proceedings of the Fifth RECOMB Satellite Workshop on Massively
   Parallel Sequencing, RECOMB-Seq 2015, Warsaw (Poland).
-  
-  
-  [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/verznet/optima/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

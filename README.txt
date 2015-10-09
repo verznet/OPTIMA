@@ -23,7 +23,7 @@ sequencing and mapping technologies has been challenging due to the lack
 of efficient and freely available software for robustly aligning maps to
 sequences.
 
-Here we introduce two new map-to-sequence alignment algorithms that
+Here, we introduce two new map-to-sequence alignment algorithms that
 efficiently and accurately align high-throughput mapping datasets to
 large, eukaryotic genomes while accounting for high error rates. In order
 to do so, these methods (OPTIMA for glocal and OPTIMA-Overlap for overlap
@@ -42,7 +42,7 @@ high precision.
 
 
 
-=== Licence and Disclaimer ===
+=== License and Disclaimer ===
 
 OPTIMA
 Copyright (C) Davide Verzotto and Niranjan Nagarajan
@@ -103,8 +103,8 @@ For questions and suggestions about the project, please contact Davide Verzotto
 
 === Execution ===
 
-Here follows how to run the provided version.
-
+Install Java 7+ SDK, and place the jar libraries "commons-math3-3.2.jar" and
+"cern.jar" in the same directory containing OPTIMA (along with the source code).
 
 
 Compile:
@@ -112,23 +112,27 @@ Compile:
 	javac  OPTIMA/Align.java
 
 
-
 Execute:
 
 	java  OPTIMA/Align  OpticalMaps.maps  OutputFileName  InSilicoMaps.silico  [pvalue|score]  [allMaps|select]  (OPTIONAL 'select' maps to process:  firstIndex lastIndex)   > OutputFileName.log  2> OutputFileName.err
 
-where the .maps file contains genomic/optical maps in the format currently
-accepted by OpGen (default output of OpGen's Argus System), the .silico file
-represents scaffold/chromosome in silico maps in SOMA v.2 format
+Where:
+- the .maps file contains genomic/optical maps in the format currently accepted
+by OpGen (i.e. default output of OpGen's Argus System),
+- the .silico file represents scaffold/chromosome in silico maps in SOMA v.2 format
 (http://www.cbcb.umd.edu/finishing/) with the additional '>' FASTA-like symbol
 to distinguish multiple scaffolds/chromosomes in the same file.
-Maps and in silico files need to be generated from the same genomic or
-restriction pattern (e.g., from a restriction enzyme).
-You can decide between using OPTIMA original p-value-based function ("pvalue")
-or a SOMA-like scoring function ("score").
-With "allMaps" you do not need to specify the optional indexes for selecting
-particular maps for the computation, while with "select" you must specify the
-maps indexes (note that the indexes -1 -1 will actually act as "allMaps").
+
+Maps and in silico files need to be generated using the same genomic or
+restriction pattern(s) (e.g. with a restriction enzyme).
+
+Options:
+- You can decide between using OPTIMA's original p-value-based function ("pvalue")
+and the Nagarajan et al. SOMA scoring function ("score").
+- By choosing "allMaps" you will run the computation for the entire set of maps,
+and therefore do not need to specify the map index range.  With "select", you
+must subsequently specify the range of map indexes to be processed (note that
+the range "-1 -1" will actually act as "allMaps").
 
 
 
@@ -144,8 +148,8 @@ Output files:
 
 - .notFound			maps with no alignment found;
 
-- .discarded		discarded maps (thresholds currently set at minimum 10
-					fragments and 50 kbp for optical maps);
+- .discarded		discarded maps (thresholds currently set to minimum 10
+					fragments and 50 kbp -- for optical maps only);
 					
 - .otherSolutions	all candidate alignments p-values (to be used in order to
   					estimate the q-value false discovery rates);
@@ -160,25 +164,23 @@ Explanation of the main output file in .ok format:
 
 
 
-All indexes/coordinates start from 0 and are all inclusive.  Orientation and
-coordinates are based on the input in silico scaffolds/chromosomes (concatenated
-to each other).
+Indexes/coordinates start from 0 and are all-inclusive.  Orientation and
+coordinates are based on the input scaffold/chromosome in silico maps
+(concatenated to each other with a virtual separation fragment).
 
 
 
-In order to get the left-most location of an alignment (i.e.
-'Scaffold_first_location', say L), please run the following awk UNIX/Linux
-script by setting 'L' (e.g., L = 259466) and the in silico file location (e.g.,
-Human_reference_hg19-KpnI.silico):
+In order to get the left-most location of an alignment (i.e. 'Scaffold_first_location',
+say L), please run the following awk UNIX/Linux script by setting the location L
+(e.g., L = 259466) and the in silico file name (e.g. Human_reference_hg19-KpnI.silico):
 
 	awk 'BEGIN{inputFragLoc=L; inputFragLoc += 1; allChrFragsSum=0; nextSeq =0; remainingInputFrags=0; lastChrFragSize=0} {header=substr($1,1,1); if (header==">"){allChrFragsSum += ($3 + 2); if (allChrFragsSum == inputFragLoc) {print "ERROR: End of scaffold/chromosome!!!"; exit;} if (allChrFragsSum >= inputFragLoc) {print substr($1,2,length($1)-1); remainingInputFrags=(inputFragLoc - (allChrFragsSum - $3 - 2)); lastChrFragSize=$2; nextSeq++;}} else if (nextSeq == 1) {len=split($0,fragSizesArray," "); for (countFrags=1; countFrags <= len; countFrags++) {if (countFrags == remainingInputFrags) {print (countFrags >= 2 ? fragSizesArray[countFrags] : "0"); exit;}} print lastChrFragSize; exit; }}' ./Human_reference_hg19-KpnI.silico     # consider as number of scaffold/chromosome fragments:  no. of cuts + 1 + 1 (the latter refers a separation fragment)   # delta-like indexes
 
 
 
-A further statistical analysis can be done by running a q-value false discovery
-rate (FDR) estimation.
-For instance, one can use the following Bioconductor Q-value v.1.40 software
-package in R (input: p-values from the output file .otherSolutions):
+A q-value false discovery rate (FDR) estimation can be performed by using e.g.
+the following Bioconductor Q-value v.1.40 software package in R (input: p-values
+from the output file .otherSolutions):
 
 	Storey, J.D., Tibshirani, R.: Statistical significance for genomewide
 	studies.  Proceedings of the National Academy of Science 100, 9440-9445
@@ -191,5 +193,5 @@ package in R (input: p-values from the output file .otherSolutions):
 === OPTIMA-Overlap ===
 
 Overlap alignment can be achieved by splitting the input optical maps into
-sliding windows of the desidered length and separately aligning all of them to
-the input scaffold/chromosome maps with OPTIMA.
+sliding windows of the desired length, and separately aligning all of them to
+the input scaffold/chromosome in silico maps with OPTIMA.

@@ -114,7 +114,9 @@ Compile:
 
 Execute:
 
-	java  OPTIMA/Align  OpticalMaps.maps  OutputFileName  InSilicoMaps.silico  [pvalue|score]  [allMaps|select]  (OPTIONAL 'select' maps to process:  firstIndex lastIndex)   > OutputFileName.log  2> OutputFileName.err
+	java  OPTIMA/Align  OpticalMaps.maps  OutputFileName  InSilicoMaps.silico 
+	      [pvalue|score]  [allMaps|select]  (OPTIONAL:  firstIndex  lastIndex)
+	      > OutputFileName.log  2> OutputFileName.err
 
 Where:
 - the .maps file contains genomic/optical maps in the format currently accepted
@@ -128,7 +130,7 @@ restriction pattern(s) (e.g. with a restriction enzyme).
 
 Options:
 - You can decide between using OPTIMA's original p-value-based function ("pvalue")
-and the Nagarajan et al. SOMA scoring function ("score").
+or the Nagarajan et al. SOMA scoring function ("score").
 - By choosing "allMaps" you will run the computation for the entire set of maps,
 and therefore do not need to specify the map index range.  With "select", you
 must subsequently specify the range of map indexes to be processed (note that
@@ -139,10 +141,7 @@ the range "-1 -1" will actually act as "allMaps").
 Output files:
 
 - .ok				best alignments found (significant and unique)
-  					(to be further analyzed with the q-value FDR estimation;
-  					as a reference guide for the human genome, a p-value of
-  					p~=1.0E-8 should correspond to a q-value of q~=0.01 for 
-  					optical maps with >=15 fragments);
+  					(to be further analyzed with the q-value FDR estimation);
   					
 - .notOk			non-significant and/or non-unique best alignments found;
 
@@ -151,8 +150,9 @@ Output files:
 - .discarded		discarded maps (thresholds currently set to minimum 10
 					fragments and 50 kbp -- for optical maps only);
 					
-- .otherSolutions	all candidate alignments p-values (to be used in order to
-  					estimate the q-value false discovery rates);
+- .otherSolutions	all candidate alignment results in the format: Z-score (to
+                    be converted into p-value), map size.  (These values can be
+                    used later in the q-value analysis);
   					
 - other supporting files, output log file and error log file.
 

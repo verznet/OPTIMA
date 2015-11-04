@@ -4,6 +4,7 @@ OPTIMA
 
 OPTIMA v.f-1.3 -- 6 October 2015
 Copyright (C) Davide Verzotto and Niranjan Nagarajan
+Main website of project: http://www.davideverzotto.it/research/OPTIMA/
 
 
 OPTIMA: Sensitive and accurate whole-genome alignment of error-prone genomic
@@ -103,7 +104,7 @@ For questions and suggestions about the project, please contact Davide Verzotto
 
 === Execution ===
 
-Install Java 7+ SDK, and place the jar libraries "commons-math3-3.2.jar" and
+Install Java 7+ JDK, and place the jar libraries "commons-math3-3.2.jar" and
 "cern.jar" in the same directory containing OPTIMA (along with the source code).
 
 
@@ -187,6 +188,16 @@ from the output file .otherSolutions):
 	(2003).
 	Bioconductor URL:
 	https://www.bioconductor.org/packages/release/bioc/html/qvalue.html
+
+
+
+For Windows users, please run from the main folder:
+	javac  -cp ".;cern.jar;commons-math3-3.2.jar"  OPTIMA/Align.java
+     
+    java  -cp ".;cern.jar;commons-math3-3.2.jar"  OPTIMA.Align  OpticalMaps.maps 
+          OutputFileName  InSilicoMaps.silico  [pvalue|score]  [allMaps|select]
+          (OPTIONAL:  firstIndex  lastIndex)  > OutputFileName.log
+          2> OutputFileName.err
 
 
 

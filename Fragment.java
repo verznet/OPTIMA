@@ -1,4 +1,4 @@
-/*  Type: Fragment vBioNano
+/*  Type: Fragment f-v. optimized for BioNano data
 
     Set main parameters and fragment information.
 
@@ -34,17 +34,17 @@ import java.text.DecimalFormat;
 
 public class Fragment implements Comparable<Fragment>
 { 
-  public static double CSIGMASEEDS = 1.2; //2.0
+  public static double CSIGMASEEDS = 1.2; //0.9 //2.0
   public static double CSIGMA = 2.6; //2.8 //3.0
   public static double BOUNDARYBIG = 1.9; //2.0
   public static int BOUNDARYBIGCONSTANT = 3;
   public static double BOUNDARYSMALL = 1.7; //2.0;
   public static int BOUNDARYSMALLCONSTANT = 3; //4;
-  public static int MAXSIZESMALLFRAGMENTS = 2000; //2050
-  public static int MAXSIZEVERYSMALLFRAGMENTS = 800; //880
+  public static int MAXSIZESMALLFRAGMENTS = 2000; // //2050
+  public static int MAXSIZEVERYSMALLFRAGMENTS = 800; // //880
   
-  public static int LOWNUMBEROFFRAGMENTS = 10; //12 //5;
-  public static int MINMOLECULESIZE = 50000; //180000 //150000 //1000;
+  public static int LOWNUMBEROFFRAGMENTS = 10;
+  public static int MINMOLECULESIZE = 50000; //150000
 
   public static int MAXALLOWEDMATCHESPERSEED = 70000; //30000
   public static int FALSECUTSSCORE = 1;
@@ -151,7 +151,27 @@ public class Fragment implements Comparable<Fragment>
     // return (int)(0.03*aSize + 450);
     
     // For BioNano Genomics' data:
-	 return (int)(0.02*aSize + 200);     
+       return (int)(0.02*aSize + 200);
+
+    /* // Default:
+    if (aSize < 800)
+    { return (int) (aSize*0.25 + 200);
+    }
+    if (aSize < 2000)
+    { return (int) (aSize*0.41);
+    }
+    if (aSize < 4000)
+    { return (int) (aSize*0.11);
+    }
+    if (aSize < 8000)
+    { return (int) (aSize*0.095);
+    }
+    if (aSize < 20000)
+    { return (int) (aSize*0.08);
+    }
+    // aSize > 20000
+    return (int) (aSize*0.0625);
+    */
   }
 
 

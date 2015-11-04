@@ -4,6 +4,8 @@ OPTIMA v.f-1.3 -- October 6, 2015
 
 Copyright (C) Davide Verzotto and Niranjan Nagarajan
 
+http://www.davideverzotto.it/research/OPTIMA/
+
 OPTIMA: Sensitive and accurate whole-genome alignment of error-prone genomic maps by combinatorial indexing and technology-agnostic statistical analysis
 --
 Index-based map-to-sequence alignment in large eukaryotic genomes
